@@ -1,0 +1,116 @@
+
+Ejercicio 1: Declara una variable entera x con valor 10 y un puntero p que almacene la dirección de x.
+
+#include <stdio.h>
+
+int main() {
+    int x = 10; 
+    int *p = &x; 
+
+    printf("El valor de x es: %d\n", x);
+    printf("La direccion de x es: %p\n", (void *)&x);
+    printf("El valor del puntero p es: %p\n", (void *)p);
+    printf("El valor apuntado por p es: %d\n", *p);
+
+    return 0;
+}
+
+
+
+Ejercicio 2:  Dado el siguiente código, modifica el valor de y usando el puntero ptr. int main() { int y = 5; int *ptr = &y; // Escribe aquí la línea que cambia el valor de y a 20 usando ptr return 0; }
+
+
+
+int main() {
+    int y = 5;
+    int *ptr = &y;
+    *ptr = 20; // Esta linea cambia el valor de y a 20 usando ptr
+    return 0;
+}
+
+
+
+Ejercicio 3:  Usa aritmética de punteros para recorrer un arreglo y sumar sus elementos.
+
+
+
+#include <stdio.h>
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 5};
+    int n = sizeof(arr) / sizeof(arr[0]); 
+    int sum = 0;
+
+    int *ptr = arr; 
+
+    for (int i = 0; i < n; i++) {
+        sum += *(ptr + i); 
+    }
+
+    printf("La suma de los elementos del arreglo es: %d\n", sum);
+
+    return 0;
+}
+
+
+
+Ejercicio 4: Si p es un puntero a float y p = 0x1000, ¿qué dirección representa p + 3? (Supón sizeof(float) = 4).
+
+
+
+Si p es un puntero a float y comienza en la dirección 0x1000, al realizar p + 3 se suma 3 veces el tamaño de float al puntero. Como sizeof(float) = 4 bytes, el calculo seria:
+
+Direccion inicial = 0x1000
+Incremento = 3 * sizeof(float) = 3 * 4 = 12
+Nueva direccion = 0x1000 + 0xC = 0x100C
+
+
+
+
+Ejercicio 5: Dado el arreglo int valores[] = {10, 20, 30, 40}, determina si las siguientes comparaciones son verdaderas o falsas:
+int *p1 = valores; int *p2 = valores + 3;
+// a) p1 == p2 // b) p1 < p2 // c) p1 >= (valores + 4)
+
+
+
+
+
+Declaraciones iniciales:
+int *p1 = valores; → p1 apunta al primer elemento del arreglo valores (dirección de valores[0]).
+
+int *p2 = valores + 3; → p2 apunta al cuarto elemento del arreglo valores (dirección de valores[3]).
+
+
+Comparaciones:
+
+a) p1 == p2
+
+p1 apunta a valores[0], mientras que p2 apunta a valores[3].
+
+Por lo tanto, falso, ya que las direcciones no son iguales.
+
+
+b) p1 < p2
+
+En aritmética de punteros, p1 (inicio del arreglo) está antes en memoria que p2 (cuarto elemento del arreglo).
+
+Por lo tanto, verdadero.
+
+
+c) p1 >= (valores + 4)
+
+(valores + 4) sería una dirección fuera del rango válido del arreglo (después del último elemento).
+
+p1 apunta al inicio del arreglo, por lo que falso, ya que p1 está antes que (valores + 4) en memoria.
+
+
+entonces:
+a) Falso
+
+b) Verdadero
+
+c) Falso
+
+
+
+
