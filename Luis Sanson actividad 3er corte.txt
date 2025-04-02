@@ -1,0 +1,260 @@
+1) 
+
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char nombre[50];
+    float nota;
+} Alumno;
+
+void guardarAlumnos(const char *filename) {
+    Alumno alumnos[3] = {
+        {"Juan Perez", 8.5},
+        {"Maria Gomez", 9.2},
+        {"Carlos Ruiz", 7.8}
+    };
+    
+    FILE *file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+    
+    fwrite(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+}
+
+void leerAlumnos(const char *filename) {
+    Alumno alumnos[3];
+    
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para lectura.\n");
+        return;
+    }
+    
+    fread(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+    
+    printf("Datos de los alumnos:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("Nombre: %s, Nota: %.2f\n", alumnos[i].nombre, alumnos[i].nota);
+    }
+}
+
+int main() {
+    const char *filename = "alumnos.bin";
+    guardarAlumnos(filename);
+    leerAlumnos(filename);
+    return 0;
+}
+
+
+
+2) 
+
+#include <stdio.h>
+
+void guardarEntero(const char *filename, int numero) {
+    FILE *file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+    
+    fwrite(&numero, sizeof(int), 1, file);
+    fclose(file);
+}
+
+void leerEntero(const char *filename) {
+    int numero;
+    
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para lectura.\n");
+        return;
+    }
+    
+    fread(&numero, sizeof(int), 1, file);
+    fclose(file);
+    
+    printf("El numero leido es: %d\n", numero);
+}
+
+int main() {
+    const char *filename = "numero.bin";
+    int numero = 42;
+    
+    guardarEntero(filename, numero);
+    leerEntero(filename);
+    
+    return 0;
+}
+
+
+3) 
+
+
+#include <stdio.h>
+
+void copiarArchivo(const char *origen, const char *destino) {
+    FILE *fileOrigen = fopen(origen, "r");
+    if (fileOrigen == NULL) {
+        printf("Error: El archivo origen no existe.\n");
+        return;
+    }
+    
+    FILE *fileDestino = fopen(destino, "w");
+    if (fileDestino == NULL) {
+        printf("Error al crear el archivo destino.\n");
+        fclose(fileOrigen);
+        return;
+    }
+    
+    char c;
+    while ((c = fgetc(fileOrigen)) != EOF) {
+        fputc(c, fileDestino);
+    }
+    
+    fclose(fileOrigen);
+    fclose(fileDestino);
+    printf("Archivo copiado con exito.\n");
+}
+
+int main() {
+    copiarArchivo("origen.txt", "copia.txt");
+    return 0;
+}
+
+
+
+
+4) 
+
+
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char nombre[50];
+    int edad;
+    float promedio;
+} Alumno;
+
+void guardarAlumnos(const char *filename) {
+    Alumno alumnos[3] = {
+        {"Ana Torres", 20, 8.7},
+        {"Luis Mendez", 21, 7.9},
+        {"Sofia Castro", 19, 9.1}
+    };
+    
+    FILE *file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+    
+    fwrite(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+}
+
+void leerAlumnos(const char *filename) {
+    Alumno alumnos[3];
+    
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para lectura.\n");
+        return;
+    }
+    
+    fread(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+    
+    printf("Datos de los alumnos:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("Nombre: %s, Edad: %d, Promedio: %.2f\n", 
+               alumnos[i].nombre, alumnos[i].edad, alumnos[i].promedio);
+    }
+}
+
+int main() {
+    const char *filename = "alumnos.dat";
+    guardarAlumnos(filename);
+    leerAlumnos(filename);
+    return 0;
+}
+
+
+
+5) 
+
+
+
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+typedef struct {
+    char nombre[50];
+    int edad;
+    float promedio;
+} Alumno;
+
+void guardarAlumnos(const char *filename) {
+    Alumno alumnos[3] = {
+        {"Ana Torres", 20, 8.7},
+        {"Luis Mendez", 21, 7.9},
+        {"Sofia Castro", 19, 9.1}
+    };
+    
+    FILE *file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+    
+    fwrite(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+}
+
+void buscarAlumno(const char *filename, const char *nombreBuscar) {
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para lectura.\n");
+        return;
+    }
+    
+    Alumno alumno;
+    bool encontrado = false;
+    
+    while (fread(&alumno, sizeof(Alumno), 1, file) == 1) {
+        if (strcmp(alumno.nombre, nombreBuscar) == 0) {
+            printf("Alumno encontrado:\n");
+            printf("Nombre: %s\nEdad: %d\nPromedio: %.2f\n", 
+                   alumno.nombre, alumno.edad, alumno.promedio);
+            encontrado = true;
+            break;
+        }
+    }
+    
+    if (!encontrado) {
+        printf("No se encontro al alumno con nombre '%s'.\n", nombreBuscar);
+    }
+    
+    fclose(file);
+}
+
+int main() {
+    const char *filename = "alumnos.dat";
+    guardarAlumnos(filename);
+    
+    char nombreBuscar[50];
+    printf("Ingrese el nombre del alumno a buscar: ");
+    fgets(nombreBuscar, 50, stdin);
+    nombreBuscar[strcspn(nombreBuscar, "\n")] = '\0'; // Eliminar el salto de línea
+    
+    buscarAlumno(filename, nombreBuscar);
+    
+    return 0;
+}
